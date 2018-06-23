@@ -6,6 +6,10 @@
 
 [Jekyll搭建个人博客](http://baixin.io/2016/10/jekyll_tutorials1/)  :  使用Jekyll搭建个人博客的教程，以及如果把博客模板修改成你自己的博客，里面也有大量的评论，及 Jekyll 搭建博客出现过的问题。
 
+### 安装注意事项
+
+这个我根据模板作者的教程安装的过程中，因为版本，操作，还有一系列原因，出现很多莫名的错误，最终改正成功，这些tips可以参考我的博客。
+
 ### 使用条件
 
 Jekyll 支持 Mac 、Windows、ubuntu 、Linux 操作系统
@@ -43,39 +47,9 @@ Jekyll 需要依赖：Ruby、bundler
 
 根据上面【提示】修改过后，在你的github里创建一个username.github.io的仓库，username指的值你的github的用户名。
 创建完成后，把我的这个模板使用git push到你的username.github.io仓库下就行了。
-搭建博客如果遇到问题可以看看我教程[Jekyll搭建个人博客](http://baixin.io/2016/10/jekyll_tutorials1/)。
-
-
-### 效果预览
-
-#### 头像效果
-
-![](/images/readme//icon.gif)
-
-如果你只想要我博客里的头像效果，你只需要拿 leopardpan.github.io/_includes/side-panel.html 文件里面 `头像效果` 和 leopardpan.github.io/css/main.css 里面最后面 `头像效果` 部分就行了。
-
-
-***
-
-#### 博客首页
-
-![](/images/readme//img4.png)
-
-***
-
-#### 文章详情
-
-
-
-![](/images/readme//img3.png)
-
-
-![](/images/readme//img2.png)
-
-
-![](/images/readme//img1.png)
+搭建博客如果遇到问题可以看看模板作者教程[Jekyll搭建个人博客](http://baixin.io/2016/10/jekyll_tutorials1/)。
 
 
 #### 感谢
 
-本博客在[Vno Jekyll](https://github.com/onevcat/vno-jekyll)基础上修改的。
+本博客在[leopardpan](https://github.com/leopardpan/leopardpan.github.io/)基础上修改的。

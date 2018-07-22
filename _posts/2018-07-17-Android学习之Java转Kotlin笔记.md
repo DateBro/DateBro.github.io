@@ -61,3 +61,85 @@ class A { // 隐式标签 @A
     }
 }
 ```
+
+## List 二三事
+### Kotlin 和 Java List 的一些方法不是通用的
+
+#### Java 中：
+```java
+List<String> list = new ArrayList();
+list.add("DateBro");
+list.clear();
+list.removeAll();
+```
+但在 kotlin 中执行上面的函数却需要一些不同的声明。
+
+```kotlin
+var list:MutableList<String> = ArrayList()
+list.add("DateBro")
+list.clear()
+list.removeAll()
+```
+与大多数语言不同，Kotlin 区分可变集合和不可变集合（lists、sets、maps 等），不可变集合如 List<E> 是只读集合，MutableList<E> 则增加了对集合的添加及删除元素的操作。
+
+## 匿名内部类的不同
+比如：
+```java
+HttpUtil.sendOkHttpRequest(address,new Callback(){
+  @Override
+  public void onResponse(Call call,Reponse reponse)throws IOException{
+    ......
+  }
+})
+```
+
+而在 kotlin 中
+```kotlin
+HttpUtil.sendOkHttpRequest(address, object : Callback{
+  override fun onFailure(call: Call?, e:IOException?){
+                ......
+              }
+}
+```
+
+kotlin 中匿名内部类必须要以 object:MyClass{
+......
+} 创建
+
+## kotlin 中匿名类实现接口和抽象类的区别
+接口：
+```Kotlin
+interface OnBind {
+    fun onBindChildViewData(holder: String, itemData: Any, position: Int)
+}
+
+
+lesson.does(object : OnBind {
+        override fun onBindChildViewData(holder: String, itemData: Any, position: Int) {
+            println(holder + itemData + position)
+        }
+    })
+```
+
+抽象类：
+```kotlin
+abstract class AbstractOnBind {
+    abstract fun onBindChildViewData(holder: String, itemData: Any, position: Int)
+}
+
+lesson.does(object : AbstractOnBind() {
+        override fun onBindChildViewData(holder: String, itemData: Any, position: Int) {
+            println(holder + itemData + position)
+        }
+    })
+```
+
+他们之间唯一的区别就是调用时的下面这句，抽象类多了一个括号。
+> object : OnBind
+  object : AbstractOnBind()
+
+  这么一点区别，但本质上是完全不一样的。
+  在实现接口时，object 代替了 java 中 new 一个对象，在这里“：“ 号后紧跟接口，接口没有构造方法，代表了object实现了这个接口；
+  而在实现抽象类的时候，抽象方法后边有（），可以理解为调用了抽象方法的构造方法，“new“出了一个对象后，赋给了object。
+
+  总结一下：为便于理解可以这么想（实际原理可能并不是这样），接口时，先有 object ，然后让 object 实现该接口；抽象类时，先实现抽象类中的抽象方法，用构造方法构造出一个对象后，再给到 object

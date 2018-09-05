@@ -10,6 +10,8 @@ date: 2018/07/16 19:40:00
 
 # Android 学习之 Java 转 Kotlin 笔记
 
+![](https://user-gold-cdn.xitu.io/2017/9/21/38a1ca2b3c7ec3df34a58859bb043865?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+
 ## Intent 对象的创建 —— 类引用与 this 表达式
 
 ### 使用 Java 创建时：
@@ -143,3 +145,66 @@ lesson.does(object : AbstractOnBind() {
   而在实现抽象类的时候，抽象方法后边有（），可以理解为调用了抽象方法的构造方法，“new“出了一个对象后，赋给了object。
 
   总结一下：为便于理解可以这么想（实际原理可能并不是这样），接口时，先有 object ，然后让 object 实现该接口；抽象类时，先实现抽象类中的抽象方法，用构造方法构造出一个对象后，再给到 object
+
+## 构造函数的不同
+
+### 重载多个构造函数
+
+Java 中我们就是多个同名函数不同参就行了，比如：
+
+```java
+public A() { }
+
+public A(int a) { }
+
+public A(int a,String b) { }
+```
+
+而在 kotlin 中我们需要用 constructor 关键字声明，而且 super 和 this 关键字的用法也略有不同，比如：
+
+```kotlin
+constructor() { }
+
+constructor(a:Int) { }
+
+constructor(a:Int, b:Int):super(a) { }
+
+constructor(a:Int, b:Int):this(a) { }
+```
+
+## kotlin-android-extension 的一些坑
+
+### 什么是 kotlin-android-extension？
+
+`kotlin-android-extensions` 是 kotlin 为 Android 专门提供的扩展插件，现在提供的功能不多，但是光是替代 findViewById 功能就值得使用了。
+
+### 如何使用？
+
+```markdown
+module:app -> build.gradle 添加以下代码
+
+apply plugin: 'kotlin-android-extensions'
+```
+
+#### Activity 示例代码
+```kotlin
+import kotlinx.android.synthetic.main.activity_main.*
+
+class TestActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        helloTv.text = "Hello Kotlin!"
+    }
+}
+```
+
+import 格式是这样的：kotlinx.android.synthetic.main.布局名称.*。需要注意的是 include 进来的布局，也是需要通过 import 导入相应布局，这样才能正常使用。AndroidStudio 会自动为你添加。如果你不嫌麻烦，手动写也是没问题。
+
+### 坑在哪？
+
+现在看起来似乎这个拓展很完美，在一些介绍博客中有人觉得可以和 butterKnife 说拜拜了，不过这个拓展刚上手时也有一些不适应的 __小坑__。
+
+如果直接在 frgment 的 *onCreateView()* 方法中调用的话，可能整个 App 都会崩溃，出现 __空指针异常__，可能是因为使用拓展获取的时候 view 还没有初始化吧（这个我也不清楚，毕竟没研究过拓展的原理），所以解决办法就是在 *onViewCreated()* 中调用。
